@@ -8,6 +8,11 @@ endif()
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/Classes)
 
+set(IS_DEBUG_BUILD CMAKE_BUILD_TYPE STREQUAL "Debug")
+if (${IS_DEBUG_BUILD})
+  add_compile_definitions(DEBUG)
+endif ()
+
 set(OCTAVIUS_SRC  "copy_resources_debug_x64.bat"
                   "copy_resources_debug_x86.bat"
                   "copy_resources_release_x64.bat"
