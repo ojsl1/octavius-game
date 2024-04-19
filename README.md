@@ -32,8 +32,8 @@ Build on Linux
        * cd octavius-game
        * mkdir build
        * cd build
-       * cmake .. -G "Ninja" (in -G parameter select your compiler)
-       * ninja
-       * copy gamedata folder from res to build directory
-       * run ./octavius in build directory
+       * cmake .. -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Release
+       * make -j8
+       * cp -rv ../res/gamedata .
+       * ./octavius
        * Profit!
