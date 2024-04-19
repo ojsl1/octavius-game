@@ -4,6 +4,8 @@ SlotMachine::SlotMachine()
 {
 	credits = 0;
 	betAmount = 0;
+  spinnable = true;
+  forceStopped = false;
 
 	wheels[0] = new Wheel();
 	wheels[1] = new Wheel();

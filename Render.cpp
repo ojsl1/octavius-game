@@ -40,7 +40,7 @@ void initVideo()
 	SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 6);
 	SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 5);
 
-	window = SDL_CreateWindow("Slot machine", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, SDL_WINDOW_OPENGL | SDL_WINDOW_FULLSCREEN | SDL_WINDOW_SHOWN);
+	window = SDL_CreateWindow("Slot machine", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, SDL_WINDOW_OPENGL | SDL_WINDOW_FULLSCREEN_DESKTOP | SDL_WINDOW_SHOWN);
 
 	if (window == nullptr)
 	{
@@ -164,7 +164,7 @@ SDL_Surface* RenderText(const std::string& message, SDL_Color color, int x, int 
 
 	glMatrixMode(GL_PROJECTION);
 	glPopMatrix();
-	glMatrixMode(GL_PROJECTION);
+	glMatrixMode(GL_MODELVIEW);
 	glPopMatrix();
 
 	glDeleteTextures(1, &texture);
