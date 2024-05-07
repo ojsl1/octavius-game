@@ -54,23 +54,31 @@ void initVideo()
 
 	window = SDL_CreateWindow("Slot machine", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, SDL_WINDOW_OPENGL | SDL_WINDOW_FULLSCREEN_DESKTOP | SDL_WINDOW_SHOWN);
 
-	if (window == nullptr)
-	{
-		std::cout << SDL_GetError() << '\n';
+  // nullcheck
+	if (window == nullptr){
+		std::cout << "ERROR Failed to create window: " << SDL_GetError() << '\n';
 		exit(1);
 	}
+  
+  SDL_Surface* screenSurface = SDL_GetWindowSurface(window);
+  
+  // nullcheck sdl surface
+  if (screenSurface == nullptr){
+    std::cout << "ERROR Failed to get the window surface: " << SDL_GetError() << '\n';
+    exit(1);
+  }else{
+    std::cout << "Window surface created successfully." << '\n';
+  }
 
 	int result = SDL_SetWindowDisplayMode(window, &currentDisplayMode);
-	if (result != 0)
-	{
+	if (result != 0){
 			std::cout << SDL_GetError() << '\n';
 			exit(1);
 	}
 
 	// init GLContext
 	SDL_GLContext glcontext = SDL_GL_CreateContext(window);
-	if (glcontext == nullptr)
-	{
+	if (glcontext == nullptr){
 		std::cout << SDL_GetError() << '\n';
 		exit(1);
 	}
