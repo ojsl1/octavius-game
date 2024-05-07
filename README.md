@@ -15,3 +15,5 @@ Build on Linux
     * sudo chown -Rv $USER:USER octavius-new
     * sh -c "cd $_ && mkdir build"
     * sh -c "cd /opt/octavius-new/build && rm -rf /opt/octavius-new/build/* && cmake /opt/octavius-new/ -G 'Unix Makefiles' -DCMAKE_BUILD_TYPE=Debug && make -j2 && cp -rv /opt/octavius-new/res/gamedata /opt/octavius-new/build"
+    * valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./octavius > ../log-5.txt 2>&1
+    * LIBGL_ALWAYS_SOFTWARE=1 LIBGL_DEBUG=verbose MESA_DEBUG=1 ./octavius
