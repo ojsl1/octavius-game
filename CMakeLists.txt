@@ -13,11 +13,7 @@ if (${IS_DEBUG_BUILD})
   add_compile_definitions(DEBUG)
 endif ()
 
-set(OCTAVIUS_SRC  "copy_resources_debug_x64.bat"
-                  "copy_resources_debug_x86.bat"
-                  "copy_resources_release_x64.bat"
-                  "copy_resources_release_x86.bat"
-                  "octavius.cpp"
+set(OCTAVIUS_SRC  "octavius.cpp"
                   "octavius.h"
                   "Wheel.cpp"
                   "SlotMachine.cpp"
