@@ -3,9 +3,6 @@
 #include "Classes/Timer.h"
 #include "Classes/Render.h"
 #include "Classes/Sound.h"
-#ifdef WIN32
-#include <windows.h>
-#endif
 
 SDL_Window* window;
 int width;
