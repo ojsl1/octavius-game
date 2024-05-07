@@ -1,5 +1,25 @@
 #include "Classes/Render.h"
 
+void DebugPrintMatrixMode(const std::string& message) {
+    GLint currentMatrixMode;
+    glGetIntegerv(GL_MATRIX_MODE, &currentMatrixMode);
+
+    switch (currentMatrixMode) {
+        case GL_MODELVIEW:
+            std::cout << "DEBUG Current matrix mode: GL_MODELVIEW, " << message << std::endl;
+            break;
+        case GL_PROJECTION:
+            std::cout << "DEBUG Current matrix mode: GL_PROJECTION, " << message << std::endl;
+            break;
+        case GL_TEXTURE:
+            std::cout << "DEBUG Current matrix mode: GL_TEXTURE, " << message << std::endl;
+            break;
+        default:
+            std::cout << "DEBUG Unknown matrix mode, " << message << std::endl;
+            break;
+    }
+}
+
 void initVideo()
 {
 	// SDL video device init
@@ -90,6 +110,8 @@ void initVideo()
 }
 
 SDL_Surface* loadTexture(const std::string& fileName) {
+  DebugPrintMatrixMode("ENTERING loadTexture");
+
 	SDL_Surface* image = IMG_Load(fileName.c_str());
 	if (!image)
 	{
@@ -109,20 +131,25 @@ SDL_Surface* loadTexture(const std::string& fileName) {
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+
+  DebugPrintMatrixMode("BEFORE glTexImage2D IN loadTexture");
+
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image->w, image->h, 0, GL_RGBA, GL_UNSIGNED_BYTE, image->pixels);
 
+  DebugPrintMatrixMode("AFTER glTexImage2D IN loadTexture");
+
+  DebugPrintMatrixMode("LEAVING loadTexture");
 	return image;
 }
 
 SDL_Surface* RenderText(const std::string& message, SDL_Color color, int x, int y, int size) {
-	glMatrixMode(GL_MODELVIEW);
+  DebugPrintMatrixMode("ENTERING RenderText");
+
+	glMatrixMode(GL_TEXTURE);
 	glPushMatrix();
 	glLoadIdentity();
 
 	gluOrtho2D(0, width, 0, height); // m_Width and m_Height is the resolution of window
-	glMatrixMode(GL_PROJECTION);
-	glPushMatrix();
-	glLoadIdentity();
 
 	glDisable(GL_DEPTH_TEST);
 	glEnable(GL_TEXTURE_2D);
@@ -145,9 +172,15 @@ SDL_Surface* RenderText(const std::string& message, SDL_Color color, int x, int 
 	}
 
 	SDL_Surface* sFont = TTF_RenderText_Blended(font, message.c_str(), color);
+
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+  DebugPrintMatrixMode("BEFORE glTexImage2D IN RenderText");
+
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, sFont->w, sFont->h, 0, GL_BGRA_EXT, GL_UNSIGNED_BYTE, sFont->pixels);
+
+  DebugPrintMatrixMode("AFTER glTexImage2D IN RenderText");
 
 	glBegin(GL_QUADS);
 	{
@@ -162,10 +195,16 @@ SDL_Surface* RenderText(const std::string& message, SDL_Color color, int x, int 
 	glDisable(GL_TEXTURE_2D);
 	glEnable(GL_DEPTH_TEST);
 
-	glMatrixMode(GL_PROJECTION);
-	glPopMatrix();
-	glMatrixMode(GL_MODELVIEW);
-	glPopMatrix();
+  DebugPrintMatrixMode("READY TO POP IN RenderText");
+
+
+	glPopMatrix(); // pop texture matrix
+                 //
+  glMatrixMode(GL_MODELVIEW); // return to modelview
+  glPushMatrix();
+  glLoadIdentity();
+
+  DebugPrintMatrixMode("LEAVING RenderText");
 
 	glDeleteTextures(1, &texture);
 
