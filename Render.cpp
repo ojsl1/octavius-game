@@ -25,11 +25,7 @@ void initVideo()
 	// SDL video device init
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
 	{
-#ifdef WIN32
-		MessageBox(NULL, SDL_GetError(), "Fatal Error", MB_OK);
-#elif LINUX
 		std::cout << SDL_GetError() << '\n';
-#endif
 		exit(1);
 	}
 
@@ -39,11 +35,7 @@ void initVideo()
 		int displayMode = SDL_GetCurrentDisplayMode(i, &currentDisplayMode);
 		if (displayMode != 0)
 		{
-#ifdef WIN32
-			MessageBox(NULL, SDL_GetError(), "Fatal Error", MB_OK);
-#elif LINUX
 			std::cout << SDL_GetError() << '\n';
-#endif
 			exit(1);
 		}
 	}
@@ -64,22 +56,14 @@ void initVideo()
 
 	if (window == nullptr)
 	{
-#ifdef WIN32
-		MessageBox(NULL, SDL_GetError(), "Fatal Error", MB_OK);
-#elif LINUX
 		std::cout << SDL_GetError() << '\n';
-#endif
 		exit(1);
 	}
 
 	int result = SDL_SetWindowDisplayMode(window, &currentDisplayMode);
 	if (result != 0)
 	{
-#ifdef WIN32
-			MessageBox(NULL, SDL_GetError(), "Fatal Error", MB_OK);
-#elif LINUX
 			std::cout << SDL_GetError() << '\n';
-#endif
 			exit(1);
 	}
 
@@ -87,11 +71,7 @@ void initVideo()
 	SDL_GLContext glcontext = SDL_GL_CreateContext(window);
 	if (glcontext == nullptr)
 	{
-#ifdef WIN32
-		MessageBox(NULL, SDL_GetError(), "Fatal Error", MB_OK);
-#elif LINUX
 		std::cout << SDL_GetError() << '\n';
-#endif
 		exit(1);
 	}
 
@@ -115,11 +95,7 @@ SDL_Surface* loadTexture(const std::string& fileName) {
 	SDL_Surface* image = IMG_Load(fileName.c_str());
 	if (!image)
 	{
-#ifdef WIN32
-		MessageBox(NULL, SDL_GetError(), "Error", MB_OK);
-#elif LINUX
 		std::cout << SDL_GetError() << '\n';
-#endif
 		exit(0);
 	}
 	image = SDL_ConvertSurfaceFormat(image, SDL_PIXELFORMAT_RGBA8888, 0);
@@ -163,11 +139,7 @@ SDL_Surface* RenderText(const std::string& message, SDL_Color color, int x, int 
 	TTF_Font* font = TTF_OpenFont("gamedata/fonts/arial.ttf", size);
 	if (!font)
 	{
-#ifdef WIN32
-		MessageBox(NULL, SDL_GetError(), "Fatal Error", MB_OK);
-#elif LINUX
 		std::cout << SDL_GetError() << '\n';
-#endif
 		exit(1);
 	}
 

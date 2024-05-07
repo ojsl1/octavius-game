@@ -268,10 +268,6 @@ void playAnimation(SlotMachine* machine, std::vector<SDL_Rect> rects)
 
 int main()
 {
-#ifdef WIN32
-	ShowWindow(GetConsoleWindow(), SW_HIDE);
-#endif
-
 	SlotMachine* slotmachine = new SlotMachine();
 	slotmachine->insertbill(100.0);
 	slotmachine->insertcoin();
